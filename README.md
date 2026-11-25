@@ -30,3 +30,11 @@ python3 main.py
 This writes the single emoji to `/output/entry.txt` (or to
 `./output/entry.txt` when `/output` is not writable, e.g. during local
 testing). The output file contains exactly one character: 🐜
+
+## Validation guard
+
+Before writing, `main.py` runs `validate_emoji()`, which checks that the
+emoji is a string of exactly one character (within the 1..16 character bound
+for the entry) and raises a clear `ValueError` otherwise — so a bad value can
+never silently land in `entry.txt`.
+

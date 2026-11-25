@@ -14,7 +14,26 @@ OUTPUT_PATH = "/output/entry.txt"
 FALLBACK_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output", "entry.txt")
 
 
+def validate_emoji(emoji: str) -> None:
+    """Guard: the entry must be exactly one emoji character.
+
+    Raises ValueError unless `emoji` is a string of exactly one character
+    (within the 1..16 character bound for the entry as a whole).
+    """
+    if not isinstance(emoji, str):
+        raise ValueError(f"emoji must be a string, got {type(emoji).__name__}")
+    if not 1 <= len(emoji) <= 16:
+        raise ValueError(
+            f"emoji must be 1..16 characters long, got length {len(emoji)}: {emoji!r}"
+        )
+    if len(emoji) != 1:
+        raise ValueError(
+            f"entry must be exactly one emoji character, got {len(emoji)}: {emoji!r}"
+        )
+
+
 def main() -> None:
+    validate_emoji(EMOJI)
     for path in (OUTPUT_PATH, FALLBACK_PATH):
         try:
             os.makedirs(os.path.dirname(path), exist_ok=True)
